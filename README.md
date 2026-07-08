@@ -12,15 +12,15 @@ Both stages write score files so you can inspect what happened.
 Run detection on a folder of PDFs or images:
 
 ```powershell
-python detect_ml.py faturim -o stage1_interactive --debug
+python detect_transform.py <input_folder> -o <output_folder> --debug
 ```
 
 Useful options:
 
 ```powershell
-python detect_ml.py faturim -o stage1_interactive --no-sam
-python detect_ml.py faturim -o stage1_interactive --no-ml
-python detect_ml.py faturim -o stage1_interactive --device cuda
+python detect_transform.py <input_folder> -o <output_folder> --no-sam
+python detect_transform.py <input_folder> -o <output_folder> --no-ml
+python detect_transform.py <input_folder> -o <output_folder> --device cuda
 ```
 
 Detection outputs:
@@ -45,7 +45,7 @@ The detection score is a 0..1 heuristic. Higher is better. It combines card shap
 Default enhancement is automatic:
 
 ```powershell
-python enhance_folder.py stage1_interactive -o enhanced_images
+python reconstruct.py <input_stage_1> -o <output_folder>
 ```
 
 Default behavior:
@@ -58,7 +58,7 @@ Damaged halftone/copier crops -> document reconstruction -> Lanczos x4
 If you want a lightweight local run without neural SR:
 
 ```powershell
-python enhance_folder.py stage1_interactive -o enhanced_images --no-denoise --sr-backend lanczos --scale 4
+python<input_stage_1> -o <output_folder> --no-denoise --sr-backend lanczos --scale 4
 ```
 
 Enhancement outputs:
@@ -81,15 +81,15 @@ python enhance_folder.py stage1_interactive -o enhanced_images --reconstruct-mod
 Useful auto-selection controls:
 
 ```powershell
-python enhance_folder.py stage1_interactive -o enhanced_images --auto-reconstruct-threshold 0.55
-python enhance_folder.py stage1_interactive -o enhanced_images --reconstruct-mode off
-python enhance_folder.py stage1_interactive -o enhanced_images --reconstruct-mode all
+python <input_stage_1> -o <output_folder> --auto-reconstruct-threshold 0.55
+python <input_stage_1> -o <output_folder> --reconstruct-mode off
+python <input_stage_1> -o <output_folder> --reconstruct-mode all
 ```
 
 Manual filename patterns are only an override for experiments:
 
 ```powershell
-python enhance_folder.py stage1_interactive -o enhanced_images --document-pattern "*damaged*"
+python <input_stage_1> -o <output_folder> --document-pattern "*damaged*"
 ```
 
 Use `--reconstruct-mode all` only when every input has the same damaged halftone/copy texture.
