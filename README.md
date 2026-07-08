@@ -40,7 +40,7 @@ Detection score columns:
 
 The detection score is a 0..1 heuristic. Higher is better. It combines card shape, portrait/photo evidence, MRZ/text evidence, color/detail, and page context.
 
-## Stage 2: Enhance Crops
+## Stage 2: Enhance Crops (optional)
 
 Default enhancement is automatic:
 
@@ -118,7 +118,7 @@ PSNR, SSIM, and LPIPS are full-reference metrics. If you do not provide a refere
 For proper reconstruction evaluation with clean targets, use matching filenames:
 
 ```powershell
-python enhance_folder.py stage1_interactive -o enhanced_images --reference-dir clean_reference_images
+python reconstruct.py <input_stage_1> -o <output_folder> --reference-dir clean_reference_images
 ```
 
 `generative_metrics.csv` contains set-level GAN/generative metrics:
@@ -134,7 +134,7 @@ FID and KID are distribution metrics, not single-image scores. They require an I
 1. Detect and crop:
 
 ```powershell
-python detect_ml.py faturim -o stage1_interactive --debug
+python detect_transform.py <input_folder> -o <output_folder> --debug
 ```
 
 2. Inspect detection scores:
@@ -147,13 +147,13 @@ stage1_interactive/debug_report.html
 3. Enhance normally:
 
 ```powershell
-python enhance_folder.py stage1_interactive -o enhanced_images
+python reconstruct.py stage1_interactive -o enhanced_images
 ```
 
 4. Enhance with automatic reconstruction selection:
 
 ```powershell
-python enhance_folder.py stage1_interactive -o enhanced_images --reconstruct-mode auto
+python reconstruct.py <input_stage_1> -o <output_folder> --reconstruct-mode auto
 ```
 
 5. Inspect enhancement metrics:
@@ -172,3 +172,9 @@ enhanced_images/enhancement_report.html
 - `--preserve-more-text` keeps more letters/numbers but also keeps more residual dot texture.
 - `--ink-strength` darkens restored text strokes.
 - `--sr-backend swin2sr` may sharpen useful detail on clean images, but can amplify halftone dots on damaged scans.
+## Stage 3: Detecting personal number and expiry date
+
+```powershell
+python nid_detection.py <input_folder> -o <output_folder> --debug
+```
+
