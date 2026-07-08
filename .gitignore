@@ -1,0 +1,51 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+.venv/
+venv/
+
+# --- model weights (large; re-downloadable) ---
+*.pth
+*.pt
+*.onnx
+
+# --- third-party vendored dependency (re-clone: github.com/megvii-research/NAFNet
+#     then `pip install -e NAFNet`; weight via the gdown command in the README) ---
+NAFNet/
+
+# --- HuggingFace / torch caches (if ever placed in-tree) ---
+.cache/
+*.safetensors
+
+# --- SENSITIVE DATA: never commit ID scans, crops, OCR outputs, reports ---
+# source scans and every generated stage/output folder
+faturim/
+stage1_detected/
+stage1_detected_fixed/
+stage1_ml/
+stage1_interactive/
+enhanced_images/
+denoised_images/
+upscaled_images/
+id_fields/
+field_boxes/
+# any image / PDF anywhere (this is a code-only repo; force-add if ever needed)
+*.png
+*.jpg
+*.jpeg
+*.bmp
+*.webp
+*.tif
+*.tiff
+*.pdf
+# extraction results that contain personal data
+summary.csv
+enhancement_scores.csv
+generative_metrics.csv
+*_report.html
+debug_report.html
+
+# --- OS / editor cruft ---
+.DS_Store
+Thumbs.db

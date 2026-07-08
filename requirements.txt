@@ -1,0 +1,44 @@
+# =============================================================================
+# id_ai_algo - full dependency set (tested versions from the WSL venv)
+#
+# PyTorch is CUDA (cu124). Install torch/torchvision FIRST from the PyTorch
+# index, THEN the rest:
+#
+#   pip install torch==2.6.0 torchvision==0.21.0 --index-url https://download.pytorch.org/whl/cu124
+#   pip install -r requirements.txt
+#
+# For CPU-only, install plain `torch torchvision` (no index-url) instead.
+# NAFNet's denoiser also needs its bundled fork:  pip install -e NAFNet
+# =============================================================================
+
+# --- core: PDF/image IO + classical detection (detection.py) ---
+numpy==2.3.5
+opencv-contrib-python==4.10.0.84    # cv2 + cv2.quality (BRISQUE)
+pymupdf==1.28.0                     # imported as `fitz`
+pillow==12.2.0
+
+# --- learned detection (detect_transform.py): Grounding DINO + SAM 2 ---
+torch==2.6.0
+torchvision==0.21.0
+transformers==5.6.2
+huggingface-hub==1.12.0
+safetensors==0.7.0
+timm==1.0.27
+
+# --- reconstruction (reconstruct.py): Swin2SR uses torch/transformers above;
+#     NAFNet denoise uses the bundled basicsr (pip install -e NAFNet) ---
+gdown==6.1.0                        # fetch the NAFNet weight from Google Drive
+
+# --- image-quality metrics (reconstruct.py) ---
+scipy==1.17.1                       # NIQE
+scikit-image==0.26.0                # PSNR / SSIM (full-reference)
+torchmetrics==1.9.0                 # FID / KID (distribution metrics)
+lpips==0.1.4                        # LPIPS perceptual distance
+pyiqa==0.1.15.post2                 # NIQE / BRISQUE / MUSIQ / CLIP-IQA (no-ref)
+
+# --- OCR field extraction (nid_detection.py) ---
+paddleocr==3.7.0
+paddlepaddle==3.3.1                 # CPU build; use paddlepaddle-gpu for CUDA
+
+# --- optional: YOLO / RT-DETR box proposers (need an ID-fine-tuned weight) ---
+ultralytics==8.4.90                 # only used when you pass --yolo-weight
